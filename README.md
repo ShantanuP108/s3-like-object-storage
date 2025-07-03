@@ -20,4 +20,18 @@ A self-hosted object storage system inspired by **Amazon S3**, built with **Fast
 ---
 
 ## 📂 Folder Structure
+s3-like-object-storage/
+├── auth/ # Authentication routes
+├── bucket/ # Bucket creation route
+├── core/ # DB, Security
+├── models/ # SQLAlchemy Models
+├── objects/ # Upload, download, versioning
+├── storage/ # User files saved here
+├── main.py # FastAPI entrypoint
+├── init_db.py # Optional: DB setup
+├── requirements.txt
+├── start.sh # For Render deployment
+└── .render.yaml # Render service definition
+
+
 

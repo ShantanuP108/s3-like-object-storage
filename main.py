@@ -13,6 +13,10 @@ app = FastAPI(
     title="S3-Like Object Storage System",
     version="0.1.0"
 )
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to S3-like Object Storage API 🚀"}
+
 
 # ✅ Add OAuth2PasswordBearer for Swagger Auth
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")

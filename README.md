@@ -1,3 +1,5 @@
+![Deploy](https://github.com/ShantanuP108/s3-like-object-storage/actions/workflows/deploy.yml/badge.svg)
+
 cat > README.md << 'EOF'
 # 🗂️ S3-like Object Storage System (FastAPI + SQLite + JWT)
 

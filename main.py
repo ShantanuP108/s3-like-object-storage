@@ -1,3 +1,4 @@
+STORAGE_PATH = "storage"
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
@@ -11,7 +12,10 @@ from objects.routes import router as object_router
 
 app = FastAPI(
     title="S3-Like Object Storage System",
-    version="0.1.0"
+    version="0.1.0",
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None
 )
 @app.get("/")
 def read_root():

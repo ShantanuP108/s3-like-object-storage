@@ -1,0 +1,15 @@
+@router.post("/upload")
+def upload_object(
+    bucket_name: str,
+    path_in_bucket: str = "",  # e.g. "folder1/folder2"
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user)
+):
+    bucket_path = os.path.join(STORAGE_PATH, current_user.username, bucket_name, path_in_bucket)
+    os.makedirs(bucket_path, exist_ok=True)  # create nested folders if not exists
+
+    file_location = os.path.join(bucket_path, file.filename)
+    with open(file_location, "wb") as f:
+        f.write(file.file.read())
+
+    return {"msg": f"Uploaded '{file.filename}' to '{bucket_name}/{path_in_bucket}'"}

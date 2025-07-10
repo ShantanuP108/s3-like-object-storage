@@ -1,0 +1,28 @@
+from typing import Optional
+from pydantic import BaseModel
+
+class Metadata(BaseModel):
+    description: Optional[str] = None
+    tags: Optional[list[str]] = None
+
+@router.post("/upload-with-meta")
+def upload_with_metadata(
+    bucket_name: str,
+    path_in_bucket: str = "",
+    file: UploadFile = File(...),
+    metadata: Metadata = Depends(),
+    current_user: User = Depends(get_current_user)
+):
+    # save file
+    bucket_path = os.path.join(STORAGE_PATH, current_user.username, bucket_name, path_in_bucket)
+    os.makedirs(bucket_path, exist_ok=True)
+    file_location = os.path.join(bucket_path, file.filename)
+    with open(file_location, "wb") as f:
+        f.write(file.file.read())
+
+    # save metadata
+    meta_path = os.path.join(bucket_path, f"{file.filename}.meta.json")
+    with open(meta_path, "w") as f:
+        f.write(metadata.model_dump_json())
+
+    return {"msg": f"File and metadata uploaded to '{bucket_name}/{path_in_bucket}'"}

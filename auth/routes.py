@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from core.database import SessionLocal
-from models.user import User
+from models.user import UserDB
 from core.security import hash_password, verify_password, create_access_token
 from datetime import timedelta
+from database import db
 
 router = APIRouter(tags=["Auth"])
 
@@ -40,9 +42,9 @@ def register(user: UserRegister, db: Session = Depends(get_db)):
     return {"msg": "User registered successfully"}
 
 @router.post("/login")
-def login(user: UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.username == user.username).first()
-    if not db_user or not verify_password(user.password, db_user.hashed_password):
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.username == form_data.username).first()
+    if not db_user or not verify_password(form_data.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     access_token = create_access_token(

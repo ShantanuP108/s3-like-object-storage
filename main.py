@@ -13,8 +13,11 @@ from objects.routes import router as object_router
 app = FastAPI(
     title="S3-Like Object Storage System",
     version="0.1.0",
-    openapi_url=None
+    docs_url="/docs",         # default
+    redoc_url="/redoc",       # optional
+    openapi_url="/openapi.json"  # hidden if changed to None
 )
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to S3-like Object Storage API 🚀"}

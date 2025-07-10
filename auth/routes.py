@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from core.database import SessionLocal
-from models.user import UserDB
+from models.user import User
 from core.security import hash_password, verify_password, create_access_token
 from datetime import timedelta
 from database import db
